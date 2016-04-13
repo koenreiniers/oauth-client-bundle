@@ -36,32 +36,4 @@ class State extends BaseToken
     {
         return $this->id;
     }
-
-    /**
-     * Set expiresAt
-     *
-     * @param \DateTime $expiresAt
-     *
-     * @return State
-     */
-    public function setExpiresAt($expiresAt)
-    {
-        $this->expiresAt = $expiresAt;
-
-        return $this;
-    }
-
-    /**
-     * Set token
-     *
-     * @param string $token
-     *
-     * @return State
-     */
-    public function setToken($token)
-    {
-        $this->token = $token;
-
-        return $this;
-    }
 }

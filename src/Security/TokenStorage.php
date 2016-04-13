@@ -2,6 +2,7 @@
 namespace Kr\OAuthClientBundle\Security;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Kr\OAuthClient\Factory\ClassMap\ClassMapInterface;
 use Kr\OAuthClient\Token\Storage\TokenStorageInterface;
 use Kr\OAuthClient\Token\TokenInterface;
 use Kr\OAuthClient\Token\State as OriginalState;
@@ -22,72 +23,35 @@ class TokenStorage implements TokenStorageInterface
      * TokenStorage constructor.
      * @param EntityManagerInterface $em
      */
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, ClassMapInterface $classMap)
     {
         $this->em = $em;
+        $this->classMap = $classMap;
     }
 
     /**
-     * Stores the token in the token storage
-     *
-     * @param TokenInterface $token
+     * @inheritdoc
      */
     public function setToken(TokenInterface $token)
     {
-        // TODO: Remove temp fix
-        if($token instanceof OriginalState) {
-            $token = new State($token->getToken(), $token->getExpiresAt());
-        } else if($token instanceof OriginalBearerToken) {
-            $token = new BearerToken($token->getToken(), $token->getExpiresAt());
-        } else if($token instanceof OriginalRefreshToken) {
-            $token = new RefreshToken($token->getToken(), $token->getExpiresAt());
-        } else if($token instanceof OriginalAuthorizationCode) {
-            $token = new AuthorizationCode($token->getToken(), $token->getExpiresAt());
-        }
         $this->em->persist($token);
         $this->em->flush();
     }
 
     /**
-     * Returns token of specified type, null when it does not exist
-     *
-     * @param string $type
-     *
-     * @return TokenInterface|null
+     * @inheritdoc
      */
     public function getToken($type)
     {
-        return $this->em->getRepository($type)->findOneBy([], ["id" => "DESC"]);
+        $className = $this->classMap->getClass($type);
+        return $this->em->getRepository($className)->findOneBy([], ["id" => "DESC"]);
     }
 
     /**
-     * Returns the current access token, null when it does not exist
-     *
-     * @return TokenInterface
+     * @inheritdoc
      */
-    public function getAccessToken()
+    public function removeToken(TokenInterface $token)
     {
-        return $this->getToken("access_token");
-    }
-
-    /**
-     * Stores the access token
-     *
-     * @param TokenInterface $token
-     */
-    public function setAccessToken(TokenInterface $token)
-    {
-        $this->setToken($token);
-    }
-
-    /**
-     * Unsets the token of specified type
-     *
-     * @param string $type
-     */
-    public function unsetToken($type)
-    {
-        $token = $this->getToken($type);
         $this->em->remove($token);
         $this->em->flush();
     }

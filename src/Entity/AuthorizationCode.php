@@ -37,32 +37,4 @@ class AuthorizationCode extends BaseToken
     {
         return $this->id;
     }
-
-    /**
-     * Set expiresAt
-     *
-     * @param \DateTime $expiresAt
-     *
-     * @return AuthorizationCode
-     */
-    public function setExpiresAt($expiresAt)
-    {
-        $this->expiresAt = $expiresAt;
-
-        return $this;
-    }
-
-    /**
-     * Set token
-     *
-     * @param string $token
-     *
-     * @return AuthorizationCode
-     */
-    public function setToken($token)
-    {
-        $this->token = $token;
-
-        return $this;
-    }
 }

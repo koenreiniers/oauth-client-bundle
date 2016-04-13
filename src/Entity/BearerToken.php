@@ -37,32 +37,4 @@ class BearerToken extends BaseToken
     {
         return $this->id;
     }
-
-    /**
-     * Set expiresAt
-     *
-     * @param \DateTime $expiresAt
-     *
-     * @return BearerToken
-     */
-    public function setExpiresAt($expiresAt)
-    {
-        $this->expiresAt = $expiresAt;
-
-        return $this;
-    }
-
-    /**
-     * Set token
-     *
-     * @param string $token
-     *
-     * @return BearerToken
-     */
-    public function setToken($token)
-    {
-        $this->token = $token;
-
-        return $this;
-    }
 }
