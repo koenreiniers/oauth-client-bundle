@@ -1,0 +1,23 @@
+{
+    "name": "koenreiniers/oauth-client-bundle",
+    "type": "symfony-bundle",
+    "description": "",
+    "keywords": ["oauth", "client", "bundle"],
+    "homepage": "http://www.koenreiniers.nl/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Koen Reiniers",
+            "email": "contact@koenreiniers.nl",
+            "homepage": "http://www.koenreiniers.nl"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Kr\\OAuthClientBundle\\": "src/"
+        }
+    },
+    "require": {
+        "koenreiniers/oauth-client": "^1.0"
+    }
+}

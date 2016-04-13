@@ -1,0 +1,47 @@
+services:
+    oauth.http_client:
+        class: GuzzleHttp\Client
+
+    oauth.event_dispatcher:
+        class: Symfony\Component\EventDispatcher\EventDispatcher
+
+    oauth.client_factory:
+        class: Kr\OAuthClient\Factory\OAuthClientFactory
+        arguments:
+            - "@oauth.http_client"
+            - "@oauth.event_dispatcher"
+
+    oauth.credentials_provider:
+        class: Kr\OAuthClientBundle\Security\CredentialsProvider
+        arguments:
+            - "@oauth.manager.credentials"
+
+    oauth.token_storage:
+        class: Kr\OAuthClientBundle\Security\TokenStorage
+        arguments:
+            - "@oauth.manager.token"
+
+    oauth.alias_resolver.credentials:
+        class: Kr\OAuthClientBundle\Security\CredentialsAliasResolver
+
+    oauth.alias_resolver.token:
+        class: Kr\OAuthClientBundle\Security\TokenAliasResolver
+
+    oauth.manager.token:
+        class: Kr\OAuthClientBundle\Manager\AliasedEntityManager
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@oauth.alias_resolver.token"
+
+    oauth.manager.credentials:
+        class: Kr\OAuthClientBundle\Manager\AliasedEntityManager
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@oauth.alias_resolver.credentials"
+
+    oauth.client:
+        class: Kr\OAuthClient\OAuthClient
+        factory: ["@oauth.client_factory", create]
+        arguments:
+            - "@oauth.credentials_provider"
+            - "@oauth.token_storage"
