@@ -15,7 +15,7 @@ class DefaultController extends Controller
     public function authorizeAction(Request $request)
     {
         /** @var OAuthClient $oauth */
-        $oauth = $this->get("oauth.client");
+        $oauth = $this->get("oauth_client");
 
         $oauth->startAuthorization();
 
@@ -28,7 +28,7 @@ class DefaultController extends Controller
     public function redirectAction(Request $request)
     {
         /** @var OAuthClient $oauth */
-        $oauth = $this->get("oauth.client");
+        $oauth = $this->get("oauth_client");
 
         $oauth->finishAuthorization();
 
