@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a5725d8066c5b62135aaf5732e848759",
-    "content-hash": "88f5a8062cdd3936afbd53de4fbe8619",
+    "hash": "bfb061a704acf6616252d6a3d917ace9",
+    "content-hash": "338f590a337c97d4b772ac1c6c4da4e7",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -224,16 +224,16 @@
         },
         {
             "name": "koenreiniers/oauth-client",
-            "version": "1.0.2",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/koenreiniers/oauth-client.git",
-                "reference": "a6bca0885d62a365e39d4de6b85f3fb9e368690f"
+                "reference": "09346b5bec53d98d485f7921f7c73db06dfff32f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/koenreiniers/oauth-client/zipball/a6bca0885d62a365e39d4de6b85f3fb9e368690f",
-                "reference": "a6bca0885d62a365e39d4de6b85f3fb9e368690f",
+                "url": "https://api.github.com/repos/koenreiniers/oauth-client/zipball/09346b5bec53d98d485f7921f7c73db06dfff32f",
+                "reference": "09346b5bec53d98d485f7921f7c73db06dfff32f",
                 "shasum": ""
             },
             "require": {
@@ -263,7 +263,7 @@
                 "client",
                 "oauth"
             ],
-            "time": "2016-04-13 09:55:04"
+            "time": "2016-04-13 16:20:05"
         },
         {
             "name": "psr/http-message",

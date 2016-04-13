@@ -18,6 +18,6 @@
         }
     },
     "require": {
-        "koenreiniers/oauth-client": "^1.0"
+        "koenreiniers/oauth-client": "^1.1"
     }
 }
