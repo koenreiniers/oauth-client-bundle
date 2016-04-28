@@ -16,8 +16,5 @@
         "psr-4": {
             "Kr\\OAuthClientBundle\\": "src/"
         }
-    },
-    "require": {
-        "koenreiniers/oauth-client": "^1.1"
     }
 }

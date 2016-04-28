@@ -1,0 +1,13 @@
+services:
+
+    kr.oauth_client.grant.refresh_token:
+        class: Kr\OAuthClientBundle\OAuth\Grant\RefreshTokenGrant
+        arguments:
+            - "@kr.oauth_client.http_client"
+            - "@kr.oauth_client.repository.refresh_token"
+
+    kr.oauth_client.grant.client_credentials:
+        class: Kr\OAuthClientBundle\OAuth\Grant\ClientCredentialsGrant
+        arguments:
+            - "@kr.oauth_client.http_client"
+            - "@kr.oauth_client.repository.client"

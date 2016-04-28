@@ -2,12 +2,11 @@
 namespace Kr\OAuthClientBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
-use Kr\OAuthClient\Credentials\Client as BaseClient;
+use Kr\OAuthClientBundle\Model\Client as BaseClient;
 
 /**
  * @ORM\Entity(repositoryClass="Kr\OAuthClientBundle\Repository\ClientRepository")
- * @ORM\Table(name="oauthclient_client")
+ * @ORM\Table(name="kr_oauthclient_client")
  */
 class Client extends BaseClient
 {
@@ -21,6 +20,11 @@ class Client extends BaseClient
     /**
      * @ORM\Column(type="string")
      */
+    protected $alias;
+
+    /**
+     * @ORM\Column(type="string")
+     */
     protected $clientId;
 
     /**
@@ -29,9 +33,39 @@ class Client extends BaseClient
     protected $clientSecret;
 
     /**
+     * @ORM\Column(type="array")
+     */
+    protected $allowedGrantTypes;
+
+    /**
      * @ORM\Column(type="string")
      */
     protected $redirectUri;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $resourceUrl;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $tokenUrl;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $authUrl;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AccessToken", mappedBy="client")
+     */
+    protected $accessTokens;
+
+    /**
+     * @ORM\OneToMany(targetEntity="RefreshToken", mappedBy="client")
+     */
+    protected $refreshTokens;
 
     /**
      * Get id
@@ -44,44 +78,102 @@ class Client extends BaseClient
     }
 
     /**
-     * Set clientId
+     * Set alias
      *
-     * @param string $clientId
+     * @param string $alias
      *
      * @return Client
      */
-    public function setClientId($clientId)
+    public function setAlias($alias)
     {
-        $this->clientId = $clientId;
+        $this->alias = $alias;
 
         return $this;
     }
 
     /**
-     * Set clientSecret
+     * Get alias
      *
-     * @param string $clientSecret
+     * @return string
+     */
+    public function getAlias()
+    {
+        return $this->alias;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->accessTokens = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->refreshTokens = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add accessToken
+     *
+     * @param \Kr\OAuthClientBundle\Entity\AccessToken $accessToken
      *
      * @return Client
      */
-    public function setClientSecret($clientSecret)
+    public function addAccessToken(\Kr\OAuthClientBundle\Entity\AccessToken $accessToken)
     {
-        $this->clientSecret = $clientSecret;
+        $this->accessTokens[] = $accessToken;
 
         return $this;
     }
 
     /**
-     * Set redirectUri
+     * Remove accessToken
      *
-     * @param string $redirectUri
+     * @param \Kr\OAuthClientBundle\Entity\AccessToken $accessToken
+     */
+    public function removeAccessToken(\Kr\OAuthClientBundle\Entity\AccessToken $accessToken)
+    {
+        $this->accessTokens->removeElement($accessToken);
+    }
+
+    /**
+     * Get accessTokens
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAccessTokens()
+    {
+        return $this->accessTokens;
+    }
+
+    /**
+     * Add refreshToken
+     *
+     * @param \Kr\OAuthClientBundle\Entity\RefreshToken $refreshToken
      *
      * @return Client
      */
-    public function setRedirectUri($redirectUri)
+    public function addRefreshToken(\Kr\OAuthClientBundle\Entity\RefreshToken $refreshToken)
     {
-        $this->redirectUri = $redirectUri;
+        $this->refreshTokens[] = $refreshToken;
 
         return $this;
+    }
+
+    /**
+     * Remove refreshToken
+     *
+     * @param \Kr\OAuthClientBundle\Entity\RefreshToken $refreshToken
+     */
+    public function removeRefreshToken(\Kr\OAuthClientBundle\Entity\RefreshToken $refreshToken)
+    {
+        $this->refreshTokens->removeElement($refreshToken);
+    }
+
+    /**
+     * Get refreshTokens
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRefreshTokens()
+    {
+        return $this->refreshTokens;
     }
 }

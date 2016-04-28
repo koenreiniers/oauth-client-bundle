@@ -1,69 +1,11 @@
-parameters:
-    oauth_client.token.authorization_code.class:  Kr\OAuthClientBundle\Entity\AuthorizationCode
-    oauth_client.token.bearer_token.class:        Kr\OAuthClientBundle\Entity\BearerToken
-    oauth_client.token.refresh_token.class:       Kr\OAuthClientBundle\Entity\RefreshToken
-    oauth_client.token.state.class:               Kr\OAuthClientBundle\Entity\State
-
-    oauth_client.credentials.client_credentials.class:  Kr\OAuthClientBundle\Entity\Client
-    oauth_client.credentials.server.class:              Kr\OAuthClientBundle\Entity\Server
-
-
 services:
-    oauth_client.http_client:
+
+    kr.oauth_client.http_client:
         class: GuzzleHttp\Client
 
-    oauth_client.event_dispatcher:
-        class: Symfony\Component\EventDispatcher\EventDispatcher
-
-    oauth_client.factory:
-        class: Kr\OAuthClient\Factory\OAuthClientFactory
+    kr.oauth:
+        class: Kr\OAuthClientBundle\DependencyInjection\Factory\OAuthFactory
         arguments:
-            - "@oauth_client.http_client"
-            - "@oauth_client.event_dispatcher"
-
-    oauth_client:
-        class: Kr\OAuthClient\OAuthClient
-        factory: ["@oauth_client.factory", create]
-        arguments:
-            - "@oauth_client.credentials_provider"
-            - "@oauth_client.manager.token"
-
-
-    # Credentials
-    oauth_client.classmap.credentials:
-        class: Kr\OAuthClient\Factory\ClassMap\DynamicClassMap
-        calls:
-            - [addClass, ["client_credentials", "%oauth_client.credentials.client_credentials.class%"]]
-            - [addClass, ["server", "%oauth_client.credentials.server.class%"]]
-
-    oauth_client.credentials_provider:
-        class: Kr\OAuthClientBundle\Security\CredentialsProvider
-        arguments:
-            - "@doctrine.orm.entity_manager"
-            - "@oauth_client.classmap.credentials"
-
-    # Tokens
-    oauth_client.classmap.token:
-        class: Kr\OAuthClient\Factory\ClassMap\DynamicClassMap
-        calls:
-            - [addClass, ["authorization_code", "%oauth_client.token.authorization_code.class%"]]
-            - [addClass, ["Bearer", "%oauth_client.token.bearer_token.class%"]]
-            - [addClass, ["refresh_token", "%oauth_client.token.refresh_token.class%"]]
-            - [addClass, ["state", "%oauth_client.token.state.class%"]]
-
-    oauth_client.manager.token:
-        class: Kr\OAuthClient\Manager\TokenManager
-        arguments:
-            - "@oauth_client.token_storage"
-            - "@oauth_client.factory.token"
-
-    oauth_client.factory.token:
-        class: Kr\OAuthClient\Token\Factory\TokenFactory
-        arguments:
-            - "@oauth_client.classmap.token"
-
-    oauth_client.token_storage:
-        class: Kr\OAuthClientBundle\Security\TokenStorage
-        arguments:
-            - "@doctrine.orm.entity_manager"
-            - "@oauth_client.classmap.token"
+            - "@kr.oauth_client.http_client"
+            - "@kr.oauth_client.authentication_manager"
+            - "@kr.oauth_client.repository.client"

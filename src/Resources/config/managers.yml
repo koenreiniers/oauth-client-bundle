@@ -1,0 +1,12 @@
+services:
+    kr.oauth_client.manager.access_token:
+        class: Kr\OAuthClientBundle\Manager\AccessTokenManager
+        arguments:
+            - "@doctrine.orm.default_entity_manager"
+            - "%kr.oauth_client.access_token.class%"
+
+    kr.oauth_client.manager.refresh_token:
+        class: Kr\OAuthClientBundle\Manager\RefreshTokenManager
+        arguments:
+            - "@doctrine.orm.default_entity_manager"
+            - "%kr.oauth_client.refresh_token.class%"

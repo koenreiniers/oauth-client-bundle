@@ -2,13 +2,13 @@
 namespace Kr\OAuthClientBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Kr\OAuthClientBundle\Model\RefreshToken as BaseRefreshToken;
+use Kr\OAuthClientBundle\Model\AccessToken as BaseAccessToken;
 
 /**
- * @ORM\Entity(repositoryClass="Kr\OAuthClientBundle\Repository\RefreshTokenRepository")
- * @ORM\Table(name="kr_oauthclient_refresh_token")
+ * @ORM\Entity(repositoryClass="Kr\OAuthClientBundle\Repository\AccessTokenRepository")
+ * @ORM\Table(name="kr_oauthclient_access_token")
  */
-class RefreshToken extends BaseRefreshToken
+class AccessToken extends BaseAccessToken
 {
     /**
      * @ORM\Id
@@ -23,12 +23,17 @@ class RefreshToken extends BaseRefreshToken
     protected $token;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="string")
+     */
+    protected $type;
+
+    /**
+     * @ORM\Column(type="datetime")
      */
     protected $expiresAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Client", inversedBy="refreshTokens")
+     * @ORM\ManyToOne(targetEntity="Client", inversedBy="accessTokens")
      */
     protected $client;
 
@@ -47,7 +52,7 @@ class RefreshToken extends BaseRefreshToken
      *
      * @param \Kr\OAuthClientBundle\Entity\Client $client
      *
-     * @return RefreshToken
+     * @return AccessToken
      */
     public function setClient(\Kr\OAuthClientBundle\Entity\Client $client = null)
     {
@@ -64,5 +69,29 @@ class RefreshToken extends BaseRefreshToken
     public function getClient()
     {
         return $this->client;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     *
+     * @return AccessToken
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 }

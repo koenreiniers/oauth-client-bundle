@@ -1,0 +1,23 @@
+parameters:
+    kr.oauth_client.access_token.class:   Kr\OAuthClientBundle\Entity\AccessToken
+    kr.oauth_client.refresh_token.class:  Kr\OAuthClientBundle\Entity\RefreshToken
+    kr.oauth_client.client.class:         Kr\OAuthClientBundle\Entity\Client
+
+services:
+    kr.oauth_client.repository.access_token:
+        class: Kr\OAuthClientBundle\Repository\AccessTokenRepository
+        factory: ["@doctrine.orm.default_entity_manager", getRepository]
+        arguments:
+            - "%kr.oauth_client.access_token.class%"
+
+    kr.oauth_client.repository.refresh_token:
+        class: Kr\OAuthClientBundle\Repository\RefreshTokenRepository
+        factory: ["@doctrine.orm.default_entity_manager", getRepository]
+        arguments:
+            - "%kr.oauth_client.refresh_token.class%"
+
+    kr.oauth_client.repository.client:
+        class: Kr\OAuthClientBundle\Repository\ClientRepository
+        factory: ["@doctrine.orm.default_entity_manager", getRepository]
+        arguments:
+            - "%kr.oauth_client.client.class%"

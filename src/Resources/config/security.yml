@@ -1,0 +1,14 @@
+services:
+
+    kr.oauth_client.authentication_manager:
+        class: Kr\OAuthClientBundle\OAuth\Authentication\AuthenticationManager
+        arguments:
+            - "@kr.oauth_client.repository.access_token"
+            - "@kr.oauth_client.manager.access_token"
+            - "@kr.oauth_client.manager.refresh_token"
+        calls:
+            - [addGrant, ["@kr.oauth_client.grant.client_credentials"]]
+            - [addGrant, ["@kr.oauth_client.grant.refresh_token"]]
+
+    kr.oauth_client.authorization_manager:
+        class: Kr\OAuthClientBundle\OAuth\Authorization\AuthorizationManager
