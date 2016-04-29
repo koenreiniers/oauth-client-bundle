@@ -3,6 +3,7 @@ namespace Kr\OAuthClientBundle\OAuth;
 
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Uri;
 use Kr\OAuthClientBundle\Entity\Client;
 use Kr\OAuthClientBundle\OAuth\Authentication\AuthenticationManager;
 use Psr\Http\Message\RequestInterface;
@@ -28,6 +29,13 @@ class OAuth
     public function send(RequestInterface $request)
     {
         $request = $this->authenticationManager->authenticate($request, $this->client);
+
+        $uri = (string)$request->getUri();
+        if(strpos($uri, $this->client->getResourceUrl()) !== 0) {
+            $uri = new Uri($this->client->getResourceUrl() . $uri);
+        }
+        $request = $request->withUri($uri);
+
         return $this->httpClient->send($request);
     }
 
